@@ -78,7 +78,6 @@ Description: HTTP library implementation in C -- Development files
 
 Package: libsoup-2.4-1
 X-Time64-Compat: libsoup2.4-1
-Provides: ${t64:Provides}
 Replaces: libsoup2.4-1
 Breaks: libsoup2.4-1 (<< ${source:Version})
 Architecture: any
@@ -111,7 +110,6 @@ Description: HTTP library implementation in C -- Shared library
 
 Package: libsoup-gnome-2.4-1
 X-Time64-Compat: libsoup-gnome2.4-1
-Provides: ${t64:Provides}
 Replaces: libsoup-gnome2.4-1
 Breaks: libsoup-gnome2.4-1 (<< ${source:Version})
 Architecture: any

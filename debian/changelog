@@ -1,3 +1,9 @@
+libsoup (2.74.3-10.1deepin1) unstable; urgency=low
+
+  * feat: revert t64
+
+ -- zengwei <zengwei1@uniontech.com>  Thu, 12 Jun 2003 11:50:37 +0900
+
 libsoup2.4 (2.74.3-10.1) unstable; urgency=high
 
   * Non-maintainer upload.
