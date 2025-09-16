@@ -1,5 +1,5 @@
 project('libsoup', 'c',
-        version: '2.74.2',
+        version: '2.74.3',
         meson_version : '>=0.50',
         license : 'LGPL2',
         default_options : 'c_std=c99')
@@ -119,7 +119,8 @@ if not libxml_dep.found()
 endif
 
 if not libxml_dep.found()
-  libxml_dep = subproject('libxml2').get_variable('xml2lib_dep')
+  # Allows fallback to subproject
+  libxml_dep = dependency('libxml-2.0')
 endif
 
 cdata = configuration_data()
@@ -232,11 +233,11 @@ apache_httpd2 = find_program('httpd2', 'httpd', 'apache2', 'apache',
 have_apache=false
 apache_httpd2_version = ''
 if apache_httpd2.found() and apachectl.found()
-  apache_httpd2_version_raw = run_command(apachectl.path(), '-v')
+  apache_httpd2_version_raw = run_command(apachectl.path(), '-v', check: false)
   # It seems that from version 2.4.39 apachectl doesn't take arguments, fallback
   # to calling apache directly just in case.
   if apache_httpd2_version_raw.returncode() != 0
-    apache_httpd2_version_raw = run_command(apache_httpd2.path(), '-v')
+    apache_httpd2_version_raw = run_command(apache_httpd2.path(), '-v', check: false)
   endif
   if apache_httpd2_version_raw.returncode() == 0
     apache_httpd2_version = apache_httpd2_version_raw.stdout().split('\n')[0]
@@ -251,11 +252,11 @@ if apache_httpd2.found() and apachectl.found()
 endif
 
 if have_apache
-  apache_modules_dirs_out = run_command('get_apache_modules_dirs.py', apachectl.path())
+  apache_modules_dirs_out = run_command('get_apache_modules_dirs.py', apachectl.path(), check: false)
   have_apache = (apache_modules_dirs_out.returncode() == 0)
   # Same as above, using apachectl might fail, try apache directly.
   if not have_apache
-    apache_modules_dirs_out = run_command('get_apache_modules_dirs.py', apache_httpd2.path())
+    apache_modules_dirs_out = run_command('get_apache_modules_dirs.py', apache_httpd2.path(), check: false)
     have_apache = (apache_modules_dirs_out.returncode() == 0)
   endif
   if have_apache
@@ -283,7 +284,7 @@ if have_apache
   message(cdata.get('APACHE_PHP_MODULE_FILE'))
   if php.found() and cdata.get('APACHE_PHP_MODULE_FILE') != ''
     have_php = true
-    php_xmlrpc = run_command(php, '-d', 'extension=xmlrpc', '-r', 'exit(function_exists("xmlrpc_server_create")?0:1);')
+    php_xmlrpc = run_command(php, '-d', 'extension=xmlrpc', '-r', 'exit(function_exists("xmlrpc_server_create")?0:1);', check: false)
     if php_xmlrpc.returncode() == 0
       message('php-xmlrpc found')
       have_php_xmlrpc = true
@@ -325,8 +326,8 @@ else
   endif
   krb5_config = find_program(krb5_config_path, required : gssapi_opt)
   if krb5_config.found()
-    libs_output = run_command (krb5_config, '--libs', 'gssapi', check: gssapi_opt.enabled())
-    cflags_output = run_command (krb5_config, '--cflags', 'gssapi', check: gssapi_opt.enabled())
+    libs_output = run_command(krb5_config, '--libs', 'gssapi', check: gssapi_opt.enabled())
+    cflags_output = run_command(krb5_config, '--cflags', 'gssapi', check: gssapi_opt.enabled())
     if libs_output.returncode() == 0 and cflags_output.returncode() == 0
       enable_gssapi = true
       gssapi_dep = declare_dependency(

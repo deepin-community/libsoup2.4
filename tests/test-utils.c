@@ -9,6 +9,7 @@
 
 #ifdef HAVE_APACHE
 static gboolean apache_running;
+static char *server_root = NULL;
 #endif
 
 static SoupLogger *logger;
@@ -150,20 +151,18 @@ static gboolean
 apache_cmd (const char *cmd)
 {
 	GPtrArray *argv;
-	char *server_root, *cwd, *pid_file;
+	char *cwd, *pid_file;
 #ifdef HAVE_APACHE_2_4
 	char *default_runtime_dir;
 #endif
 	int status;
 	gboolean ok;
+	GString *str;
+	guint i;
 
-	server_root = g_test_build_filename (G_TEST_BUILT, "", NULL);
-	if (!g_path_is_absolute (server_root)) {
-		char *abs_server_root;
-
-		abs_server_root = g_canonicalize_filename (server_root, NULL);
-		g_free (server_root);
-		server_root = abs_server_root;
+	if (server_root == NULL) {
+		g_test_message ("Server root not initialized");
+		return FALSE;
 	}
 
 	cwd = g_get_current_dir ();
@@ -190,12 +189,23 @@ apache_cmd (const char *cmd)
 	g_ptr_array_add (argv, (char *)cmd);
 	g_ptr_array_add (argv, NULL);
 
+	str = g_string_new ("Apache command:");
+
+	for (i = 0; i < argv->len - 1; i++) {
+		char *escaped = g_shell_quote (argv->pdata[i]);
+		g_string_append_c (str, ' ');
+		g_string_append (str, escaped);
+		g_free (escaped);
+	}
+
+	g_test_message ("%s", str->str);
+	g_string_free (str, TRUE);
+
 	ok = g_spawn_sync (cwd, (char **)argv->pdata, NULL, 0, NULL, NULL,
 			   NULL, NULL, &status, NULL);
 	if (ok)
 		ok = (status == 0);
 
-	g_free (server_root);
 	g_free (cwd);
 	g_free (pid_file);
 #ifdef HAVE_APACHE_2_4
@@ -203,6 +213,7 @@ apache_cmd (const char *cmd)
 #endif
 	g_ptr_array_free (argv, TRUE);
 
+	g_test_message (ok ? "-> success" : "-> failed");
 	return ok;
 }
 
@@ -213,6 +224,8 @@ apache_init (void)
 	 * suitably-configured Apache server */
 	if (g_getenv ("SOUP_TESTS_ALREADY_RUNNING_APACHE"))
 		return;
+
+	server_root = soup_test_build_filename_abs (G_TEST_BUILT, "", NULL);
 
 	if (!apache_cmd ("start")) {
 		g_printerr ("Could not start apache\n");
@@ -241,6 +254,8 @@ apache_cleanup (void)
 		while (kill (pid, 0) == 0)
 			g_usleep (100);
 	}
+
+	g_clear_pointer (&server_root, g_free);
 }
 
 #endif /* HAVE_APACHE */
@@ -819,6 +834,42 @@ soup_test_get_index (void)
 	}
 
 	return index_buffer;
+}
+
+char *
+soup_test_build_filename_abs (GTestFileType  file_type,
+                              const gchar   *first_path,
+                              ...)
+{
+        const gchar *pathv[16];
+        gsize num_path_segments;
+        char *path;
+        char *path_abs;
+        va_list ap;
+
+        va_start (ap, first_path);
+
+        pathv[0] = g_test_get_dir (file_type);
+        pathv[1] = first_path;
+
+        for (num_path_segments = 2; num_path_segments < G_N_ELEMENTS (pathv); num_path_segments++) {
+                pathv[num_path_segments] = va_arg (ap, const char *);
+                if (pathv[num_path_segments] == NULL)
+                        break;
+        }
+
+        va_end (ap);
+
+        g_assert_cmpint (num_path_segments, <, G_N_ELEMENTS (pathv));
+
+        path = g_build_filenamev ((gchar **) pathv);
+        if (g_path_is_absolute (path))
+                return path;
+
+        path_abs = g_canonicalize_filename (path, NULL);
+        g_free (path);
+
+        return path_abs;
 }
 
 #ifndef G_HAVE_ISO_VARARGS

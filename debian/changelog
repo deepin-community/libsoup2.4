@@ -1,8 +1,176 @@
-libsoup2.4 (2.74.2-3) UNRELEASED; urgency=medium
+libsoup2.4 (2.74.3-10.1) unstable; urgency=high
 
-  * update
+  * Non-maintainer upload.
+  * CVE-2025-32906:
+    soup_headers_parse_request() function may be vulnerable to an
+    out-of-bound read. This flaw allows a malicious user to use a specially
+    crafted HTTP request to crash the HTTP server (Closes: #1103521).
+  * CVE-2025-32909:
+    SoupContentSniffer may be vulnerable to a NULL pointer dereference in
+    the sniff_mp4 function. The HTTP server may cause the libsoup client to
+    crash (Closes: #1103517).
+  * CVE-2025-32910:
+    soup_auth_digest_authenticate() is vulnerable to a NULL pointer
+    dereference. This issue may cause the libsoup client to crash
+    (Closes: #1103516).
+  * CVE-2025-32911:
+    use-after-free memory issue not on the heap in the
+    soup_message_headers_get_content_disposition() function. This flaw
+    allows a malicious HTTP client to cause memory corruption in the libsoup
+    server (Closes: #1103515).
+  * CVE-2025-32913:
+    the soup_message_headers_get_content_disposition() function is
+    vulnerable to a NULL pointer dereference. This flaw allows a malicious
+    HTTP peer to crash a libsoup client or server that uses this function.
+    (same fix for both CVE-2025-32911 and CVE-2025-32913)
+  * CVE-2025-32912:
+    SoupAuthDigest is vulnerable to a NULL pointer dereference. The HTTP
+    server may cause the libsoup client to crash.
+  * CVE-2025-32914:
+    the soup_multipart_new_from_message() function is vulnerable to an
+    out-of-bounds read. This flaw allows a malicious HTTP client to induce the
+    libsoup server to read out of bounds (Closes: #1103512).
+  * CVE-2025-46420:
+    the soup_header_parse_quality_list() function is vulnerable to memory
+    leaks when parsing a quality list that contains elements with all zeroes
+    (Closes: #1104055).
 
- -- Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>  Mon, 06 Jun 2022 21:52:14 +0800
+ -- Sean Whitton <spwhitton@spwhitton.name>  Sat, 03 May 2025 17:11:55 +0800
+
+libsoup2.4 (2.74.3-10) unstable; urgency=high
+
+  [ Fabian Toepfer ]
+  * SECURITY UPDATE: out-of-bounds read
+    - debian/patches/CVE-2025-2784-1.patch: Fix potential overflow
+    - debian/patches/CVE-2025-2784-2.patch: Add better coverage of
+      skip_insignificant_space()
+    - CVE-2025-2784 (Closes: #1102208) (LP: #2107263)
+  * SECURITY UPDATE: out-of-bounds read
+    - debian/patches/CVE-2025-32050.patch: Fix using int instead of
+      size_t for strcspn return
+    - CVE-2025-32050 (Closes: #1102212)
+  * SECURITY UPDATE: out-of-bounds read
+    - debian/patches/CVE-2025-32052.patch: Fix heap buffer overflow in
+      soup_content_sniffer_sniff
+    - CVE-2025-32052 (Closes: #1102214)
+  * SECURITY UPDATE: out-of-bounds read
+    - debian/patches/CVE-2025-32053.patch: Fix heap buffer overflow in
+      sniff_feed_or_html()
+    - CVE-2025-32053 (Closes: #1102215)
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Sat, 12 Apr 2025 15:15:11 -0400
+
+libsoup2.4 (2.74.3-9) unstable; urgency=medium
+
+  * Cherry-pick patch to extend expiration to 2049 of a certificate
+    used for build tests (Closes: #1091502)
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Wed, 19 Mar 2025 10:07:56 -0400
+
+libsoup2.4 (2.74.3-8.1) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * Backport upstream fixes for
+    - CVE-2024-52530: HTTP request smuggling with null bytes at the end of
+      header names (Closes: #1088812)
+    - CVE-2024-52531: buffer overflow in soup_header_parse_param_list_strict
+      (Closes: #1089240)
+    - CVE-2024-52532: infinite loop / potential DoS in reading certain
+      data from WebSocket clients (Closes: #1089238).
+
+ -- Sean Whitton <spwhitton@spwhitton.name>  Tue, 10 Dec 2024 13:17:25 +0800
+
+libsoup2.4 (2.74.3-8) unstable; urgency=medium
+
+  * Add Build-Depends: ca-certificates for build tests (Closes: #1064744)
+  * Bump Standards Version to 4.7.0
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Thu, 03 Oct 2024 09:12:27 -0400
+
+libsoup2.4 (2.74.3-7) unstable; urgency=medium
+
+  * Add Build-Depends: winbind for NTLM support
+  * Enable sysprof where available & explicitly disable it elsewhere.
+    Previously, sysprof was an auto feature so it would be automatically
+    enabled once sysprof was available at build time (which will happen
+    once sysprof-enabled glib is used)
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Thu, 04 Apr 2024 16:13:26 -0400
+
+libsoup2.4 (2.74.3-6) unstable; urgency=medium
+
+  * debian/shlibs.local: Update for binary package rename
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Thu, 14 Mar 2024 19:14:45 -0400
+
+libsoup2.4 (2.74.3-5) unstable; urgency=medium
+
+  * Build-depend on dpkg-dev (>= 1.22.5) as safety against backports
+  * Release to unstable (Closes: #1062633)
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Wed, 28 Feb 2024 18:43:05 -0500
+
+libsoup2.4 (2.74.3-3.1~exp3) experimental; urgency=medium
+
+  * Fix missing rename of libsoup-gnome-2.4-1.
+
+ -- Steve Langasek <vorlon@debian.org>  Sat, 24 Feb 2024 22:17:36 +0000
+
+libsoup2.4 (2.74.3-3.1~exp2) experimental; urgency=medium
+
+  * Fix the renaming to match the upstream soname, as pointed out by Jeremy
+    Bícha.
+
+ -- Steve Langasek <vorlon@debian.org>  Sat, 24 Feb 2024 19:42:39 +0000
+
+libsoup2.4 (2.74.3-3.1~exp1) experimental; urgency=medium
+
+  * Non-maintainer upload.
+  * Rename libraries for 64-bit time_t transition.
+
+ -- Steve Langasek <vorlon@debian.org>  Fri, 02 Feb 2024 07:49:32 +0000
+
+libsoup2.4 (2.74.3-3) unstable; urgency=medium
+
+  [ Jeremy Bicha ]
+  * Don't require php on i386: only used by tests
+
+  [ Simon McVittie ]
+  * d/libsoup2.4-doc.lintian-overrides: Remove, no longer needed
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Mon, 29 Jan 2024 07:27:21 -0500
+
+libsoup2.4 (2.74.3-2) unstable; urgency=medium
+
+  * Team upload
+
+  [ Amin Bandali ]
+  * Update packaging branch to debian/latest
+
+  [ Simon McVittie ]
+  * d/control: Stop generating from d/control.in
+  * d/control: Explicitly build-depend on required GIR XML
+    (Helps: #1030223)
+  * d/control: Add ${gir:Depends}, ${gir:Provides} to -dev packages
+    (Helps: #1030223)
+  * d/control: Use ${gir:Provides} instead of hard-coding
+    gir1.2-soupgnome-2.4 Provides
+  * Remove version constraints unnecessary since Debian 11
+  * Update lintian override info to new format
+  * Canonicalize upstream metadata fields: Bug-Database, Bug-Submit
+  * Update standards version to 4.6.2 (no changes needed)
+  * Move most binary packages to Section: oldlibs.
+    This is a deprecated branch of libsoup and has been superseded by
+    libsoup3.
+
+ -- Simon McVittie <smcv@debian.org>  Fri, 17 Nov 2023 13:27:26 +0000
+
+libsoup2.4 (2.74.3-1) unstable; urgency=medium
+
+  * New upstream release (LP: #1992504)
+  * Drop 3 test patches applied in new release
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Tue, 11 Oct 2022 15:28:32 -0400
 
 libsoup2.4 (2.74.2-3) unstable; urgency=medium
 
