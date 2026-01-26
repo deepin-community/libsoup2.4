@@ -1,3 +1,9 @@
+libsoup2.4 (2.74.3-10.1deepin1) unstable; urgency=medium
+
+  * Revert 64-bit time_t changes.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Mon, 26 Jan 2026 13:48:18 +0800
+
 libsoup2.4 (2.74.3-10.1) unstable; urgency=high
 
   * Non-maintainer upload.

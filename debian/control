@@ -1,5 +1,5 @@
 Source: libsoup2.4
-Section: oldlibs
+Section: devel
 Priority: optional
 Maintainer: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>
 Uploaders: Iain Lane <laney@debian.org>, Jeremy Bicha <jbicha@debian.org>, Sebastien Bacher <seb128@debian.org>
@@ -9,7 +9,6 @@ Build-Depends: apache2 <!nocheck> <!noinsttest>,
                debhelper-compat (= 13),
                dh-sequence-gir,
                dh-sequence-gnome,
-               dpkg-dev (>= 1.22.5),
                gir1.2-gio-2.0-dev,
                glib-networking,
                gtk-doc-tools,
@@ -39,13 +38,14 @@ Homepage: https://wiki.gnome.org/Projects/libsoup
 Rules-Requires-Root: no
 
 Package: libsoup2.4-dev
+Section: libdevel
 Architecture: any
 Multi-Arch: same
 Depends: gir1.2-soup-2.4 (= ${binary:Version}),
          libbrotli-dev,
          libglib2.0-dev,
          libpsl-dev,
-         libsoup-2.4-1 (= ${binary:Version}),
+         libsoup2.4-1 (= ${binary:Version}),
          libsqlite3-dev,
          libsysprof-capture-4-dev [amd64 arm64 armel armhf i386 mips64el ppc64el riscv64 s390x powerpc ppc64] <!nosysprof>,
          libxml2-dev,
@@ -76,11 +76,8 @@ Description: HTTP library implementation in C -- Development files
  .
  This package contains the development files.
 
-Package: libsoup-2.4-1
-X-Time64-Compat: libsoup2.4-1
-Provides: ${t64:Provides}
-Replaces: libsoup2.4-1
-Breaks: libsoup2.4-1 (<< ${source:Version})
+Package: libsoup2.4-1
+Section: libs
 Architecture: any
 Multi-Arch: same
 Depends: glib-networking,
@@ -109,11 +106,8 @@ Description: HTTP library implementation in C -- Shared library
  .
  This package contains the shared library.
 
-Package: libsoup-gnome-2.4-1
-X-Time64-Compat: libsoup-gnome2.4-1
-Provides: ${t64:Provides}
-Replaces: libsoup-gnome2.4-1
-Breaks: libsoup-gnome2.4-1 (<< ${source:Version})
+Package: libsoup-gnome2.4-1
+Section: libs
 Architecture: any
 Multi-Arch: same
 Depends: ${misc:Depends},
@@ -145,10 +139,11 @@ Description: HTTP library implementation in C -- GNOME support library
  This package contains the GNOME support shared library.
 
 Package: libsoup-gnome2.4-dev
+Section: libdevel
 Architecture: any
 Multi-Arch: same
 Depends: gir1.2-soup-2.4 (= ${binary:Version}),
-         libsoup-gnome-2.4-1 (= ${binary:Version}),
+         libsoup-gnome2.4-1 (= ${binary:Version}),
          libsoup2.4-dev (= ${binary:Version}),
          ${gir:Depends},
          ${misc:Depends}
