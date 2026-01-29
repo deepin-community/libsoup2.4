@@ -28,3 +28,10 @@ CVE-2025-32912-2.patch
 CVE-2025-32914.patch
 CVE-2025-46420.patch
 CVE-2025-46420_backport_tests.patch
+auth-digest-fix-crash-in-soup_auth_digest_get_protection_.patch
+soup-date-utils-Add-value-checks-for-date-time-parsing.patch
+tests-Add-tests-for-date-time-including-timezone-validati.patch
+soup-multipart-Verify-boundary-limits-for-multipart-body.patch
+soup-multipart-Verify-array-bounds-before-accessing-its-m.patch
+fix-heap-use-after-free-caused-by-finishing-queue-item-tw.patch
+session-Strip-authentication-credentails-on-cross-origin-.patch

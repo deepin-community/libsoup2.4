@@ -1,3 +1,22 @@
+libsoup2.4 (2.74.3-10.1deepin2) UNRELEASED; urgency=medium
+
+  * SECURITY UPDATE:
+    - CVE-2025-4476:
+      debian/patches/auth-digest-fix-crash-in-soup_auth_digest_get_protection_.patch
+    - CVE-2025-4945:
+      debian/patches/soup-date-utils-Add-value-checks-for-date-time-parsing.patch
+      tests-Add-tests-for-date-time-including-timezone-validati.patch
+    - CVE-2025-4948:
+      debian/patches/soup-multipart-Verify-boundary-limits-for-multipart-body.patch
+    - CVE-2025-4969:
+      debian/patches/soup-multipart-Verify-array-bounds-before-accessing-its-m.patch
+    - CVE-2025-12105:
+      debian/patches/fix-heap-use-after-free-caused-by-finishing-queue-item-tw.patch
+    - CVE-2025-46421:
+      debian/patches/session-Strip-authentication-credentails-on-cross-origin-.patch
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 30 Jan 2026 15:25:26 +0800
+
 libsoup2.4 (2.74.3-10.1deepin1) unstable; urgency=medium
 
   * Revert 64-bit time_t changes.
