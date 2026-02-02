@@ -28,3 +28,4 @@ CVE-2025-32912-2.patch
 CVE-2025-32914.patch
 CVE-2025-46420.patch
 CVE-2025-46420_backport_tests.patch
+CVE-2025-4948.patch

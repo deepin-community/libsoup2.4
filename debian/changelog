@@ -1,3 +1,9 @@
+libsoup2.4 (2.74.3-10.1deepin2) unstable; urgency=medium
+
+  * fix CVE-2025-4948 
+
+ -- zengwei <zengwei1@uniontech.com>  Mon, 02 Feb 2026 16:42:44 +0800
+
 libsoup2.4 (2.74.3-10.1deepin1) unstable; urgency=medium
 
   * Revert 64-bit time_t changes.
