@@ -1,3 +1,34 @@
+libsoup2.4 (2.74.3-10.1deepin3) unstable; urgency=high
+
+  * SECURITY UPDATE: Multiple CVE fixes
+    - CVE-2025-32049: WebSocket large message DoS
+      debian/patches/CVE-2025-32049.patch
+    - CVE-2025-4035: Cookie public suffix bypass with uppercase
+      debian/patches/CVE-2025-4035.patch
+    - CVE-2026-0719: NTLM authentication integer overflow
+      debian/patches/CVE-2026-0719.patch
+    - CVE-2026-2369: Integer underflow in content sniffer
+      debian/patches/CVE-2026-2369.patch
+    - CVE-2026-2443: Range header validation
+      debian/patches/CVE-2026-2443.patch
+    - CVE-2026-2708: Request smuggling via duplicate Content-Length
+      debian/patches/CVE-2026-2708.patch
+    - CVE-2026-3632: Hostname injection SSRF
+      debian/patches/CVE-2026-3632.patch
+    - CVE-2026-3633: CRLF injection in HTTP method
+      debian/patches/CVE-2026-3633.patch
+    - CVE-2026-3634: CRLF injection in Content-Type header
+      debian/patches/CVE-2026-3634.patch
+    - CVE-2025-32051: Not affected (libsoup3 only)
+    - CVE-2026-4271: Not affected (HTTP/2 only, not in libsoup2.4)
+    - CVE-2026-5119: Already has PR #6
+    - CVE-2026-0716: Already has PR #7
+    - CVE-2026-0719: Covered by CVE-2026-0719.patch
+    - CVE-2025-9901: Cache Vary header - requires complex fix
+    - CVE-2026-2436: Server disconnect UAF - requires complex fix
+    - CVE-2026-3099: Digest auth nonce replay - requires complex fix
+
+ -- deepin-ci-robot <packages@deepin.org>  Thu, 28 May 2026 14:50:00 +0800
 libsoup2.4 (2.74.3-10.1deepin2) unstable; urgency=medium
 
   * SECURITY UPDATE:

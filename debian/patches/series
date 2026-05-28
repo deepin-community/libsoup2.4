@@ -36,3 +36,12 @@ soup-multipart-Verify-array-bounds-before-accessing-its-m.patch
 fix-heap-use-after-free-caused-by-finishing-queue-item-tw.patch
 session-Strip-authentication-credentails-on-cross-origin-.patch
 multipart-check-length-of-bytes-read-soup_filter_input_st.patch
+CVE-2025-32049.patch
+CVE-2025-4035.patch
+CVE-2026-0719.patch
+CVE-2026-2369.patch
+CVE-2026-2443.patch
+CVE-2026-2708.patch
+CVE-2026-3632.patch
+CVE-2026-3633.patch
+CVE-2026-3634.patch
