@@ -1,0 +1,57 @@
+From: Tianyu Chen <sweetyfish@deepin.org>
+Date: Tue, 20 Oct 2026 18:34:19 +0800
+Subject: Fix parsing of the xmlrpc test list with newer GLib
+
+---
+ tests/xmlrpc-old-server-test.c | 12 +++++-------
+ tests/xmlrpc-server-test.c     | 12 +++++-------
+ 2 files changed, 10 insertions(+), 14 deletions(-)
+
+diff --git a/tests/xmlrpc-old-server-test.c b/tests/xmlrpc-old-server-test.c
+index 977c537..fe75ba5 100644
+--- a/tests/xmlrpc-old-server-test.c
++++ b/tests/xmlrpc-old-server-test.c
+@@ -344,14 +344,12 @@ main (int argc, char **argv)
+ 		g_free (out);
+ 
+ 		for (i = 0; tests[i] && *tests[i]; i++) {
+-			/* GLib >= 2.62 defaults to TAP output for tests, and
+-			 * this adds TAP diagnostics "#..." and the test count
+-			 * "1..N", even in the output of "some-test -l".
+-			 * Ignore those. */
+-			if (tests[i][0] == '#' || g_str_has_prefix (tests[i], "1.."))
++			/* GLib defaults to TAP output for tests, which adds TAP
++			 * diagnostics "#..." and the test count "1..N", and newer
++			 * versions add further non-path lines, even in the output
++			 * of "some-test -l".  Only test paths are of interest. */
++			if (!g_str_has_prefix (tests[i], "/xmlrpc-old/"))
+ 				continue;
+-
+-			g_assert_true (g_str_has_prefix (tests[i], "/xmlrpc-old/"));
+ 			path = g_strdup_printf ("/xmlrpc-old-server/%s", tests[i] + strlen ("/xmlrpc-old/"));
+ 			g_test_add_data_func (path, tests[i], do_one_xmlrpc_test);
+ 			g_free (path);
+diff --git a/tests/xmlrpc-server-test.c b/tests/xmlrpc-server-test.c
+index a6d4abd..efb5b7e 100644
+--- a/tests/xmlrpc-server-test.c
++++ b/tests/xmlrpc-server-test.c
+@@ -344,14 +344,12 @@ main (int argc, char **argv)
+ 		g_free (out);
+ 
+ 		for (i = 0; tests[i] && *tests[i]; i++) {
+-			/* GLib >= 2.62 defaults to TAP output for tests, and
+-			 * this adds TAP diagnostics "#..." and the test count
+-			 * "1..N", even in the output of "some-test -l".
+-			 * Ignore those. */
+-			if (tests[i][0] == '#' || g_str_has_prefix (tests[i], "1.."))
++			/* GLib defaults to TAP output for tests, which adds TAP
++			 * diagnostics "#..." and the test count "1..N", and newer
++			 * versions add further non-path lines, even in the output
++			 * of "some-test -l".  Only test paths are of interest. */
++			if (!g_str_has_prefix (tests[i], "/xmlrpc/"))
+ 				continue;
+-
+-			g_assert_true (g_str_has_prefix (tests[i], "/xmlrpc/"));
+ 			path = g_strdup_printf ("/xmlrpc-server/%s", tests[i] + strlen ("/xmlrpc/"));
+ 			g_test_add_data_func (path, tests[i], do_one_xmlrpc_test);
+ 			g_free (path);

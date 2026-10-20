@@ -36,3 +36,4 @@ soup-multipart-Verify-array-bounds-before-accessing-its-m.patch
 fix-heap-use-after-free-caused-by-finishing-queue-item-tw.patch
 session-Strip-authentication-credentails-on-cross-origin-.patch
 multipart-check-length-of-bytes-read-soup_filter_input_st.patch
+Fix-parsing-of-the-xmlrpc-test-list-with-newer-GLib.patch
